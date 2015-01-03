@@ -91,16 +91,16 @@ nameOfFunction:Callback(nameOfFunctionCallback);
 
 Then to fire events, there are the following methods:
 
-Client-Side (SendToServer)
+Client-Side (CallServer)
 ```
 local nameOfFunction = modRemote:GetFunction("NameOfFunction");
 local returned = nameOfFunction:CallServer("Hello, World!");
 print(returned);
 ```
 
-Server-Side (CallServer)
+Server-Side (CallPlayer)
 ```
 local nameOfFunction = modRemote:GetFunction("NameOfFunction");
-local returned = nameOfFunction:CallServer("Hi Server!");
+local returned = nameOfFunction:CallPlayer(game.Players.Player1, "Hi Server!");
 print(returned)
 ```
