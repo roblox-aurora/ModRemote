@@ -84,7 +84,7 @@ Server-side:
 local nameOfFunction = modRemote:GetFunction("NameOfFunction"); 
 function nameOfFunctionCallback(player, ...)
  -- do things with args
- return "Hello, there " .. player.Name .. "!';
+ return "Hello, there " .. player.Name .. "!";
 end
 nameOfFunction:Callback(nameOfFunctionCallback);
 ```
