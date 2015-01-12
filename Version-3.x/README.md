@@ -176,3 +176,20 @@ local someValue = nameOfFunction:CallServer("GetSomeValue");
 local anotherValue = nameOfFunction:CallServer("GetAnotherValue");
 ```
 This means if you're using the same RemoteFunction for multiple "actions", you might want to separate the "actions" into individual RemoteFunctions. Using the same RemoteFunction for multiple "actions" is regarded as bad practice.
+
+
+Working with existing RemoteEvents/RemoteFunctions
+================
+If you don't want to use ModRemote to create Events/Functions, you can wrap ModRemote around existing events/functions and use the library on them just as you would with ModRemote Events/Functions
+
+RemoteEvents
+--------------
+```lua
+local existingEvent = modRemote:GetEventFromInstance(path_to_event);
+```
+
+RemoteFunctions
+--------------
+```lua
+local existingFunction = modRemote:GetEventFromInstance(path_to_function);
+```
