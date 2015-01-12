@@ -1,10 +1,10 @@
 ROBLOX-RemoteModule
 ===================
 
-ModuleScript for making client/server communication easier
+ModuleScript for allowing easy creation/use of the RemoteFunction/RemoteEvent instances through higher-level coding.
 
 
-I created this module a while ago to try and make use of RemoteEvents/Functions on ROBLOX a lot less of a pain.
+I created this module a while ago to try and make use of RemoteEvents/Functions on ROBLOX a lot less of a pain to work with.
 
 This module does both Events and Functions.
 
