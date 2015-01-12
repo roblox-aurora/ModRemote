@@ -332,17 +332,19 @@ if (remote.AllowExperimentalFeatures) then
 		end
 	end
 	
+	--[[
+		TODO: Cache based on same params [?]
+	--]]	
+	
 	function remFunc:CallServer(...) 
 		local clientCache = self:GetInstance():FindFirstChild("ClientCache");
 		if (clientCache) then
 			local cached = tempCache[self.Name];
 			if (cached and os.time() < cached.Expires) then
-				print("Returning cached value", cached.Value);
 				return cached.Value;
 			else
 				local newVal = remote:CallServer(self.Name, ...);
 				tempCache[self.Name] = {Expires = os.time() + clientCache.Value, Value = newVal};
-				print("Returning non-cached value", newVal);
 				return newVal;
 			end
 		else
