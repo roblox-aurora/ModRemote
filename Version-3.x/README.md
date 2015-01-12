@@ -1,4 +1,4 @@
-ROBLOX-RemoteModule
+ModuleRemote
 ===================
 
 ModuleScript for allowing easy creation/use of the RemoteFunction/RemoteEvent instances through ROBLOX lua scripting.
