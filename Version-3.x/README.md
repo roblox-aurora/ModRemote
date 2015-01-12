@@ -222,3 +222,5 @@ Then you can grab those through ModRemote, like in our example you can simply gr
 ```lua
 local coolEvent = modRemote:GetEvent("CoolEvent");
 ```
+
+This will work both on the client and on the server, simple as that.
