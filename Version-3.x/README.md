@@ -215,6 +215,10 @@ You can use
 ```lua
 modRemote:RegisterChildren();
 ```
+or
+```lua
+modRemote:RegisterChildren(the_instance_with_the_remotes);
+```
 
 which will go through all the RemoteEvents/RemoteFunctions parented to the script that calls the method and turn them into ModRemote events/functions.
 
