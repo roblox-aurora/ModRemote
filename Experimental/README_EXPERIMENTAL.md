@@ -168,3 +168,11 @@ i Time       i (server)
 29 1421043233 25
 30 1421043238 30
 ```
+
+The following will not work as intended, however:
+```lua
+local nameOfFunction = modRemote:GetFunction("NameOfFunction");
+local someValue = nameOfFunction:CallServer("GetSomeValue");
+local anotherValue = nameOfFunction:CallServer("GetAnotherValue");
+```
+This means if you're using the same RemoteFunction for multiple "actions", you might want to separate the "actions" into individual RemoteFunctions. I will add a way in the future to cache individual actions.
