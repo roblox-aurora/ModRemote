@@ -211,7 +211,7 @@ e.g.
 
 This feature is useful if you want to parent your RemoteEvents/RemoteFunctions to a script, so you can see what events/functions are associated with what particular script.
 
-This is already done by default for the script using ModRemote, if the AutomaticallyRegisterChildren option is set to true. (By default it is)
+~~This is already done by default for the script using ModRemote, if the AutomaticallyRegisterChildren option is set to true. (By default it is)~~ (Currently working on this)
 
 Or if you wish to do it manually, you can use 
 ```lua
