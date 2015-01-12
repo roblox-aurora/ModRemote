@@ -175,4 +175,4 @@ local nameOfFunction = modRemote:GetFunction("NameOfFunction");
 local someValue = nameOfFunction:CallServer("GetSomeValue");
 local anotherValue = nameOfFunction:CallServer("GetAnotherValue");
 ```
-This means if you're using the same RemoteFunction for multiple "actions", you might want to separate the "actions" into individual RemoteFunctions. I will add a way in the future to cache individual actions.
+This means if you're using the same RemoteFunction for multiple "actions", you might want to separate the "actions" into individual RemoteFunctions. Using the same RemoteFunction for multiple "actions" is regarded as bad practice.
