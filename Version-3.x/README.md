@@ -182,14 +182,21 @@ Working with existing RemoteEvents/RemoteFunctions
 ================
 If you don't want to use ModRemote to create Events/Functions, you can wrap ModRemote around existing events/functions and use the library on them just as you would with ModRemote Events/Functions
 
+Both of the following work server and client-side.
+
 RemoteEvents
 --------------
+(Example client using event)
 ```lua
 local existingEvent = modRemote:GetEventFromInstance(path_to_event);
+existingEvent:SendToServer("I'm firing a non-ModRemote instance using ModRemote methods! :D");
 ```
 
 RemoteFunctions
 --------------
+(Example client using function)
 ```lua
 local existingFunction = modRemote:GetEventFromInstance(path_to_function);
+local test = existingFunction:CallServer("Test");
+print(test);
 ```
