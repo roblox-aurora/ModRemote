@@ -202,3 +202,23 @@ local existingFunction = modRemote:GetFunctionFromInstance(path_to_function);
 local test = existingFunction:CallServer("Test");
 print(test);
 ```
+
+
+Registering Events/Functions parented to server scripts/modules
+===============
+e.g. 
+![RemoteEvent parented to script](http://i.imgur.com/0rLdVaq.png)
+
+This feature is useful if you want to parent your RemoteEvents/RemoteFunctions to a script, so you can see what events/functions are associated with what particular script.
+
+You can use 
+```lua
+modRemote:RegisterChildren();
+```
+
+which will go through all the RemoteEvents/RemoteFunctions parented to the script that calls the method and turn them into ModRemote events/functions.
+
+Then you can grab those through ModRemote, like in our example you can simply grab it after you register it as such:
+```lua
+local coolEvent = modRemote:GetEvent("CoolEvent");
+```
