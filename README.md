@@ -3,12 +3,13 @@ ModuleScript for making it easy to do Client/Server communication using the ROBL
 
 Version 3.x
 ===========
-Version 3.x is the experimental build for RemoteModule. The ModuleScript and documentation can be found under
+Version 3.x is the current build for RemoteModule. The ModuleScript and documentation can be found under
 
-[Version 3.x](Experimental/)
+[Version 3.x](Version-3.x/)
 
 New Features
-* Wrapping existing Event instances
+* Wrapping existing RemoteEvent instances
+* Wrapping existing RemoteFunction instances
 * RemoteFunction server result caching (client-side)
 
 Version 2.72
