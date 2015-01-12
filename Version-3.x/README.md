@@ -198,7 +198,7 @@ RemoteFunctions
 --------------
 (Example client using function)
 ```lua
-local existingFunction = modRemote:GetEventFromInstance(path_to_function);
+local existingFunction = modRemote:GetFunctionFromInstance(path_to_function);
 local test = existingFunction:CallServer("Test");
 print(test);
 ```
