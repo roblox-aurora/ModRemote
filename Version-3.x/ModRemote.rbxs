@@ -60,11 +60,11 @@ function remote.internal:CreateEventMetatable(instance)
 end
 
 
-function remote:RegisterChildren()
+function remote:RegisterChildren(instance)
 	assert(server, "RegisterChildren can only be called from the server.");
-	local _script = getfenv(0).script; -- getfenv~!!!!111 dragunss!!!~~!~!~!~!1`1`1`
-	if (_script) then
-		for i,child in pairs(_script:GetChildren()) do
+	local parent = instance or getfenv(0).script; -- getfenv~!!!!111 dragunss!!!~~!~!~!~!1`1`1`
+	if (parent) then
+		for i,child in pairs(parent:GetChildren()) do
 			if (child:IsA("RemoteEvent")) then
 				remote.internal:CreateEvent(child.Name, child);
 			elseif (child:IsA("RemoteFunction")) then
