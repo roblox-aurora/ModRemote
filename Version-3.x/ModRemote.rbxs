@@ -26,7 +26,7 @@ local remote = {
 	event = {};
 	func = {};
 	internal = {};
-	Version = 3.01;
+	Version = 3.1;
 };
 
 -- This warning will only show on the server
@@ -60,6 +60,20 @@ function remote.internal:CreateEventMetatable(instance)
 end
 
 
+function remote:RegisterChildren()
+	assert(server, "RegisterChildren can only be called from the server.");
+	local _script = getfenv(0).script; -- getfenv~!!!!111 dragunss!!!~~!~!~!~!1`1`1`
+	if (_script) then
+		for i,child in pairs(_script:GetChildren()) do
+			if (child:IsA("RemoteEvent")) then
+				remote.internal:CreateEvent(child.Name, child);
+			elseif (child:IsA("RemoteFunction")) then
+				remote.internal:CreateFunction(child.Name, child);
+			end
+		end
+	end
+end
+
 function remote.internal:CreateFunctionMetatable(instance)
 	
 	local _event = {
@@ -86,10 +100,11 @@ end
 
 
 
-function remote.internal:CreateEvent(name)
+function remote.internal:CreateEvent(name, instance)
 	
-	local instance = eventStorage:FindFirstChild(name) or Instance.new("RemoteEvent", eventStorage);
+	local instance = instance or eventStorage:FindFirstChild(name) or Instance.new("RemoteEvent", eventStorage);
 	instance.Name = name;
+	instance.Parent = eventStorage;
 	
 	local _event = remote.internal:CreateEventMetatable(instance);
 	
@@ -200,10 +215,11 @@ function remote:GetFunctionFromInstance(instance)
 end
 
 
-function remote.internal:CreateFunction(name)
+function remote.internal:CreateFunction(name, instance)
 	
-	local instance = functionStorage:FindFirstChild(name) or Instance.new("RemoteFunction", functionStorage);
+	local instance = instance or functionStorage:FindFirstChild(name) or Instance.new("RemoteFunction", functionStorage);
 	instance.Name = name;
+	instance.Parent = functionStorage;
 
 	local _event = remote.internal:CreateFunctionMetatable(instance);	
 	remote.Events[name] = _event;
