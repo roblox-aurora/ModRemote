@@ -27,6 +27,10 @@ local remote = {
 	func = {};
 	internal = {};
 	Version = 3.1;
+	
+	--- This option determines whether any server-script that uses ModuleScript
+	--- Will add it's child RemoteEvents/Functions into ModRemote automatically.
+	AutomaticallyRegisterChildren = true,
 };
 
 -- This warning will only show on the server
@@ -330,5 +334,8 @@ do -- [[REMOTE FUNCTION OBJECT METHODS ]]
 	end
 end
 
+if (server and remote.AutomaticallyRegisterChildren) then
+	remote:RegisterChildren();
+end
 
 return remote;
