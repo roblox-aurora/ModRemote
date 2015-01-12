@@ -13,7 +13,7 @@ New Features
 * RemoteFunction server result caching (client-side)
 
 Removed
-* Compatibility with non-Filtering games
+* Compatibility with non-Filtering games - new projects should be using FilteringEnabled.
 * Old code related to the names of ModRemote events/functions to make it easier to implement the wrapping of events and functions.
 
 Version 2.72
