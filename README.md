@@ -26,7 +26,7 @@ RemoteEvent Features (Server-side)
 * 
 
 RemoteEvent Features (Client-side)
------
+-------
 
 * Send to Server
 * Listen to Events
@@ -34,10 +34,14 @@ RemoteEvent Features (Client-side)
 * 
 
 RemoteFunction Features (Server-side)
+-------
+
 * Callback 
 * CallPlayer
 * 
 
 RemoteFunction Features (Client-side)
+-------
+
 * Callback
 * CallServer
