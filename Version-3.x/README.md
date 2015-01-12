@@ -132,7 +132,7 @@ for i = 1,30 do
 end
 ```
 
-You will notice it will return the same result for every 5 seconds this for-loop runs - the result of this is, that it only fired the RemoteFunction 6 times as opposed to 30 - which really would clog the network up.
+You will notice it will return the same result for every 5 seconds this for-loop runs - the result of this is, that it only fired the RemoteFunction 7 times as opposed to 30 - which really would clog the network up.
 
 
 ```
