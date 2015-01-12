@@ -27,8 +27,7 @@ ModEvent
 
 [shared]
   void Listen(LuaFunction func) 
-  [yields] 
-    void Wait() 
+  [yields] void Wait() 
   
   void Destroy()
   void GetInstance()
