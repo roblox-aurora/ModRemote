@@ -104,3 +104,67 @@ local nameOfFunction = modRemote:GetFunction("NameOfFunction");
 local returned = nameOfFunction:CallPlayer(game.Players.Player1, "Hi Server!");
 print(returned)
 ```
+
+
+
+RemoteFunction Caching
+---------------
+Firing a RemoteFunction requires not only the client to send the server information, but the server to send the client information back.
+
+If you want to cache this information in case you're not wanting to clog up the network with the same request - you can do the following:
+
+Server-Side
+```lua
+local nameOfFunction = modRemote:CreateFunction("NameOfFunction");
+nameOfFunction:SetClientCache(5);
+
+nameOfFunction:Callback(function(player, number)
+ return ("%d %d"):format(os.time(), number);
+end);
+```
+
+Then on the client-side, you can try this out by doing:
+```lua
+local nameOfFunction = modRemote:GetFunction("NameOfFunction");
+for i = 1,30 do
+ print(i, nameOfFunction:CallServer(i));
+ wait(1);
+end
+```
+
+You will notice it will return the same result for every 5 seconds this for-loop runs - the result of this is, that it only fired the RemoteFunction 6 times as opposed to 30 - which really would clog the network up.
+
+
+```
+i Time       i (server)
+1 1421043208 1
+2 1421043208 1
+3 1421043208 1
+4 1421043208 1
+5 1421043213 5
+6 1421043213 5
+7 1421043213 5
+8 1421043213 5
+9 1421043213 5
+10 1421043218 10
+11 1421043218 10
+12 1421043218 10
+13 1421043218 10
+14 1421043218 10
+15 1421043223 15
+16 1421043223 15
+17 1421043223 15
+18 1421043223 15
+19 1421043223 15
+20 1421043228 20
+21 1421043228 20
+22 1421043228 20
+23 1421043228 20
+24 1421043228 20
+25 1421043233 25
+26 1421043233 25
+27 1421043233 25
+28 1421043233 25
+29 1421043233 25
+30 1421043238 30
+```
