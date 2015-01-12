@@ -26,7 +26,7 @@ local remote = {
 	event = {};
 	func = {};
 	internal = {};
-	Version = 3.1;
+	Version = 3.11;
 };
 
 -- This warning will only show on the server
