@@ -17,20 +17,20 @@ ModRemote Core:
 
 ModEvent
 ```
-[client]
-  void SendToServer(...)
-
-[server]
-  void SendToPlayer(Player player, ...)
-  void SendToPlayers(Table players, ...)
-  void SendToAllPlayers(...)
-
 [shared]
   void Listen(LuaFunction func) 
   [yields] void Wait() 
   
   void Destroy()
   void GetInstance()
+
+[server]
+  void SendToPlayer(Player player, ...)
+  void SendToPlayers(Table players, ...)
+  void SendToAllPlayers(...)
+
+[client]
+  void SendToServer(...)
 ```
 
 ModFunction
@@ -41,10 +41,11 @@ ModFunction
   void Destroy()
   void GetInstance()
 
-[client] 
-  [cachable] 
-    void CallServer(...)
 [server] 
   void CallPlayer(Player player, ...)
   void SetClientCache(int seconds)
+
+[client] 
+  [cachable] 
+    void CallServer(...)
 ```
