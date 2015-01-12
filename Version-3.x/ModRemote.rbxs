@@ -306,8 +306,6 @@ do -- [[REMOTE FUNCTION OBJECT METHODS ]]
 			else
 				local newVal = self:CallServerIntl(...);
 				remote.FuncCache[self.Instance:GetFullName()] = {Expires = os.time() + clientCache.Value, Value = newVal};
-				
-				print("Create cached value", self.Instance:GetFullName());
 				return newVal;
 			end
 		else
