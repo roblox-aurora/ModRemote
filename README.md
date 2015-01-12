@@ -11,6 +11,7 @@ New Features
 * Wrapping existing RemoteEvent instances
 * Wrapping existing RemoteFunction instances
 * RemoteFunction server result caching (client-side)
+* Registering remotes that are parented to server scripts
 
 Removed
 * Compatibility with non-Filtering games - new projects should be using FilteringEnabled.
