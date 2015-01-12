@@ -24,10 +24,9 @@ local remote = {
 	event = {};
 	
 	func = {};
-	funccache = {};
 	
 	internal = {};
-	Version = 3.0;
+	Version = 3.01;
 	
 	--- Change this to true if you want to hide the warning.
 	--- Do so at your OWN RISK.
@@ -60,31 +59,14 @@ if (script.Parent ~= game:GetService("ReplicatedStorage")) then
 	error("[ModRemote] Parent of Module should be ReplicatedStorage.");
 end
 
+
+
+
+
+
 --======================================= R E M O T E    E V E N T ========================================
-
-
-function remote.internal:GetEvent(name)
-	local ev =  (eventStorage:FindFirstChild(name));
-	
-	return ev;
-end
-
-function remote.internal:GetFunction(name)
-	return (functionStorage:FindFirstChild(name));
-end
-
-function remote.internal:CreateEvent(name)
-	
-	local instance = eventStorage:FindFirstChild(name) or Instance.new("RemoteEvent", eventStorage);
-	instance.Name = name;
-	
-	
-	--instance.OnServerEvent:connect(function(...)
-	--	
-	--end);
-	
+function remote.internal:CreateEventMetatable(instance)
 	local _event = {
-		Name = name;
 		Instance = instance;
 	};
 	local _mt = {
@@ -99,9 +81,116 @@ function remote.internal:CreateEvent(name)
 	};
 	setmetatable(_event, _mt);
 	
+	return _event;	
+end
+
+
+function remote.internal:CreateEvent(name)
+	
+	local instance = eventStorage:FindFirstChild(name) or Instance.new("RemoteEvent", eventStorage);
+	instance.Name = name;
+	
+	local _event = remote.internal:CreateEventMetatable(instance);
+	
 	remote.Events[name] = _event;
 	
 	return _event;
+end
+
+
+function remote:GetEventFromInstance(instance)
+	local _event = remote.internal:CreateEventMetatable(instance);
+	
+	return _event;
+end
+
+
+function remote.internal:GetEvent(name)
+	local ev =  (eventStorage:FindFirstChild(name));
+	
+	return ev;
+end
+
+--- Creates an event 
+-- @param string name - the name of the event.
+function remote:CreateEvent(name)
+	if (not server) then
+		warn("[ModRemote] CreateEvent should be used by the server."); end
+	
+	return remote.internal:CreateEvent(name);
+end
+
+
+
+--- Gets an event if it exists, otherwise errors
+-- @param string name - the name of the event.
+function remote:GetEvent(name)
+	assert(type(name) == 'string', "[ModRemote] GetEvent - Name must be a string");
+	assert(eventStorage:FindFirstChild(name),"[ModRemote] GetEvent - Event " .. name .. " not found, create it using CreateEvent.");
+	
+	local _event = remote.Events[name];
+	if (_event) then
+		return _event;
+	else
+		local _ev = remote.internal:CreateEvent(name);
+		return _ev;
+	end
+end
+
+do --[[EVENT OBJECT METHODS]]
+	local remEnv = remote.event;
+	
+	function remEnv:SendToPlayers(playerList, ...) 
+		assert(server, "[ModRemote] SendToPlayers should be called from the Server side.");
+		for _, player in pairs(playerList) do
+			self.Instance:FireClient(player, ...);
+		end	
+	end
+	
+	function remEnv:SendToPlayer(player, ...)  
+		assert(server, "[ModRemote] SendToPlayers should be called from the Server side.");
+		self.Instance:FireClient(player, ...);
+	end
+	
+	function remEnv:SendToServer(...) 
+		assert(client, "SendToServer should be called from the Client side.");
+		self.Instance:FireServer(...);
+	end
+	
+	function remEnv:SendToAllPlayers(...) 
+		assert(server, "[ModRemote] SendToPlayers should be called from the Server side.");
+		self.Instance:FireAllClients(...);	
+	end
+	
+	function remEnv:Listen(func)
+		if (server) then
+			self.Instance.OnServerEvent:connect(func);
+		else
+			self.Instance.OnClientEvent:connect(func);
+		end
+	end
+	
+	function remEnv:Wait()
+		if (server) then
+			self.Instance.OnServerEvent:wait();
+		else
+			self.Instance.OnClientEvent:wait();
+		end	
+	end
+	
+	function remEnv:GetInstance() 
+		return self.Instance; 
+	end
+	
+	function remEnv:Destroy() 
+		self.Instance:Destroy();	
+	end
+end
+
+--====
+
+function remote.internal:GetFunction(name)
+	return (functionStorage:FindFirstChild(name));
 end
 
 
@@ -131,23 +220,6 @@ function remote.internal:CreateFunction(name)
 	return _event;
 end
 
-
---- Gets an event if it exists, otherwise errors
--- @param string name - the name of the event.
-function remote:GetEvent(name)
-	assert(type(name) == 'string', "[ModRemote] GetEvent - Name must be a string");
-	assert(eventStorage:FindFirstChild(name),"[ModRemote] GetEvent - Event " .. name .. " not found, create it using CreateEvent.");
-	
-	local _event = remote.Events[name];
-	if (_event) then
-		return _event;
-	else
-		local _ev = remote.internal:CreateEvent(name);
-		return _ev;
-	end
-end
-
-
 --- Gets a function if it exists, otherwise errors
 -- @param string name - the name of the function.
 function remote:GetFunction(name)
@@ -173,71 +245,11 @@ function remote:CreateFunction(name)
 end
 
 
---- Creates an event 
--- @param string name - the name of the event.
-function remote:CreateEvent(name)
-	if (not server) then
-		warn("[ModRemote] CreateEvent should be used by the server."); end
-	
-	return remote.internal:CreateEvent(name);
-end
 
-function remote:ListenToEvent(name, func)
-	local instance = self.internal:GetEvent(name);
-	assert(instance, "[ModRemote] SendToServer - Event " .. name .. " does not exist."); 
 
-	if (server) then
-		instance.OnServerEvent:connect(func);
-	else
-		instance.OnClientEvent:connect(func);
-	end
-end
 
-function remote:SendToServer(name, ...)
-	local instance = self.internal:GetEvent(name);
-	assert(client, "SendToServer should be called from the Client side.");
-	assert(instance, "SendToServer - Event " .. name .. " does not exist."); 
-	
-	instance:FireServer(...);
-end
 
-function remote:EventWait(name)
-	local instance = self.internal:GetEvent(name);
-	assert(instance, "[ModRemote] EventWait - Event " .. name .. " does not exist."); 
-	
-	if (server) then
-		instance.OnServerEvent:wait();
-	else
-		instance.OnClientEvent:wait();
-	end
-end
-
-function remote:SendToPlayer(name, player, ...)
-	local instance = self.internal:GetEvent(name);
-	assert(server, "[ModRemote] SendToPlayer should be called from the Server side.");
-	assert(instance, "[ModRemote] SendToPlayer - Event " .. name .. " does not exist."); 
-	assert(type(player) == 'userdata' and player.Parent == game.Players, "SendToPlayer - second parameter should be a valid player.");
-	
-	instance:FireClient(player, ...);
-end
-
-function remote:SendToPlayers(name, playerList, ...)
-	local instance = self.internal:GetEvent(name);
-	assert(server, "[ModRemote] SendToPlayers should be called from the Server side.");
-	assert(instance, "[ModRemote] SendToPlayers - Event " .. name .. " does not exist."); 
-	
-	for _, player in pairs(playerList) do
-		instance:FireClient(player, ...);
-	end
-end
-
-function remote:SendToAllPlayers(name, ...)
-	local instance = self.internal:GetEvent(name);
-	assert(server, "[ModRemote] SendToAllPlayers should be called from the Server side.");
-	assert(instance, "[ModRemote] SendToAllPlayers - Event " .. name .. " does not exist."); 
-	
-	instance:FireAllClients(...);
-end
+--======== REMOTE FUNCTION ===========
 	
 function remote:CallServer(name, ...)
 	local instance = self.internal:GetFunction(name);
@@ -284,24 +296,6 @@ function remote:DestroyFunction(name)
 	assert(instance, "[ModRemote] DestroyFunction - Function " .. name .. " does not exist."); 
 	instance:Destroy();
 end
-
-function remote:DestroyEvent(name)
-	local instance = self.internal:GetEvent(name);
-	assert(instance, "[ModRemote] DestroyEvent - Function " .. name .. " does not exist."); 
-	instance:Destroy();	
-end
-
-
---- Remote Event Methods
-local remEnv = remote.event;
-function remEnv:SendToPlayers(...) remote:SendToPlayers(self.Name, ...); end
-function remEnv:SendToPlayer(...) remote:SendToPlayer(self.Name, ...); end
-function remEnv:SendToServer(...) remote:SendToServer(self.Name, ...); end
-function remEnv:SendToAllPlayers(...) remote:SendToAllPlayers(self.Name, ...); end
-function remEnv:Listen(...) remote:ListenToEvent(self.Name, ...); end
-function remEnv:Wait() remote:EventWait(self.Name); end
-function remEnv:GetInstance() return self.Instance; end
-function remEnv:Destroy() remote:DestroyEvent(self.Name); end
 
 
 --- Remote Function Methods
