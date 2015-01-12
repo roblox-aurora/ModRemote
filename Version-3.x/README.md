@@ -184,6 +184,8 @@ If you don't want to use ModRemote to create Events/Functions, you can wrap ModR
 
 Both of the following work server and client-side.
 
+Once you use GetEventFromInstance/GetFunctionFromInstance - it will work just like if you used GetEvent/GetFunction.
+
 RemoteEvents
 --------------
 (Example client using event)
