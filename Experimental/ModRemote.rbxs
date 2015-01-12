@@ -29,9 +29,6 @@ local remote = {
 	internal = {};
 	Version = 3.0;
 	
-	RemoteEventCache 		=	0;
-	RemoteFunctionCache 	= 	0; -- 0 for none, or enter the amount of seconds the result should be cached
-	
 	--- Change this to true if you want to hide the warning.
 	--- Do so at your OWN RISK.
 	HideFilteringWarning = false;
@@ -339,7 +336,7 @@ if (remote.AllowExperimentalFeatures) then
 		local clientCache = self:GetInstance():FindFirstChild("ClientCache");
 		if (clientCache) then
 			local cached = tempCache[self.Name];
-			if (cached.Expires < os.time()) then
+			if (cached and os.time() < cached.Expires) then
 				print("Returning cached value", cached.Value);
 				return cached.Value;
 			else
