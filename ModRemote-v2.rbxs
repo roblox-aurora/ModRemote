@@ -1,5 +1,5 @@
 --[[
-	ModRemote v2.0
+	ModRemote v2
 		ModuleScript for handling networking via client/server
 ]]
 -- Main variables
