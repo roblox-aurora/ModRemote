@@ -1,6 +1,9 @@
 --[[
 	ModRemote v3.0
 		ModuleScript for handling networking via client/server
+		
+	Documentation for this ModuleScript can be found at
+		https://github.com/VoidKnight/ROBLOX-RemoteModule/tree/master/Version-3.x
 ]]
 -- Main variables
 local replicated = game:GetService("ReplicatedStorage");
