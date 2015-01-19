@@ -2,7 +2,7 @@ API
 =============
 ModRemote Core:
 ```
-  ModRemote __call()
+  ModRemote metamethod __call()
   void RegisterChildren()
   void RegisterChildren(Instance childrenOf)
 
@@ -40,12 +40,16 @@ ModFunction
   
   void Destroy()
   void GetInstance()
+  
+  
 
 [server] 
-  void CallPlayer(Player player, ...)
+  Result metamethod __call(Player player, ...)
+  Result CallPlayer(Player player, ...)
   void SetClientCache(int seconds)
 
 [client] 
   [cachable] 
-    void CallServer(...)
+    Result metamethod __call(...)
+    Result CallServer(...)
 ```
