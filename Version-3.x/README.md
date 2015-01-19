@@ -44,12 +44,14 @@ nameOfEvent:Listen(onNameOfEvent);
 Then to fire events, there are the following methods:
 
 Client-Side (SendToServer)
+------------
 ```lua
 local nameOfEvent = modRemote:GetEvent("NameOfEvent");
 nameOfEvent:SendToServer("Hello, World!");
 ```
 
 Server-Side (SendToPlayer, SendToAllPlayers, SendToPlayers)
+------------
 ```lua
 local nameOfEvent = modRemote:GetEvent("NameOfEvent");
 nameOfEvent:SendToPlayer(game.Players.Player1, "Hello, World!");
