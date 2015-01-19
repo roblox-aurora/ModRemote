@@ -1,5 +1,5 @@
 --[[
-	ModRemote v3.0
+	ModRemote v3.13
 		ModuleScript for handling networking via client/server
 		
 	Documentation for this ModuleScript can be found at
@@ -8,13 +8,20 @@
 -- Main variables
 local replicated = game:GetService("ReplicatedStorage");
 local server = game:FindService("NetworkServer");
-local remoteStorage = script;
+local remoteStorage = replicated;
 
-local functionStorage = remoteStorage:FindFirstChild("Functions") or Instance.new("Configuration",remoteStorage);
+local functionStorage = remoteStorage:FindFirstChild("Functions") or Instance.new("Model",remoteStorage);
 functionStorage.Name = "Functions";
 
-local eventStorage = remoteStorage:FindFirstChild("Events") or Instance.new("Configuration",remoteStorage);
+local eventStorage = remoteStorage:FindFirstChild("Events") or Instance.new("Model",remoteStorage);
 eventStorage.Name = "Events";
+
+local modRemEvent = Instance.new("BindableEvent", script);
+modRemEvent.Name = "ModEvent";
+
+if (script:FindFirstChild("Debug")) then
+	require(script.Debug)(modRemEvent);
+end
 
 local filtering = workspace.FilteringEnabled;
 local localServer = (game.JobId == '');
@@ -26,7 +33,7 @@ local remote = {
 	event = {};
 	func = {};
 	internal = {};
-	Version = 3.11;
+	Version = 3.16;
 };
 
 -- This warning will only show on the server
@@ -64,6 +71,7 @@ function remote:RegisterChildren(instance)
 	assert(server, "RegisterChildren can only be called from the server.");
 	local parent = instance or getfenv(0).script; -- getfenv~!!!!111 dragunss!!!~~!~!~!~!1`1`1`
 	if (parent) then
+		modRemEvent:Fire("RegisterChildren", parent:GetFullName());
 		for i,child in pairs(parent:GetChildren()) do
 			if (child:IsA("RemoteEvent")) then
 				remote.internal:CreateEvent(child.Name, child);
@@ -73,6 +81,7 @@ function remote:RegisterChildren(instance)
 		end
 	end
 end
+
 
 function remote.internal:CreateFunctionMetatable(instance)
 	
@@ -88,6 +97,14 @@ function remote.internal:CreateFunctionMetatable(instance)
 			end
 		end);
 		__newindex = nil;
+		
+		__call = (function(self,...)
+			if (server) then
+				return self:CallPlayer(...);
+			else
+				return self:CallServer(...);
+			end
+		end)
 	};
 	setmetatable(_event, _mt);
 	
@@ -115,6 +132,8 @@ end
 
 
 function remote:GetEventFromInstance(instance)
+	modRemEvent:Fire("GetEventFromInstance", instance:GetFullName());	
+	
 	local _event = remote.internal:CreateEventMetatable(instance);
 	
 	return _event;
@@ -122,6 +141,8 @@ end
 
 
 function remote.internal:GetEvent(name)
+	modRemEvent:Fire("<internal> GetEvent", name);		
+	
 	local ev =  (eventStorage:FindFirstChild(name));
 	
 	return ev;
@@ -130,6 +151,7 @@ end
 --- Creates an event 
 -- @param string name - the name of the event.
 function remote:CreateEvent(name)
+	modRemEvent:Fire("CreateEvent", name);		
 	if (not server) then
 		warn("[ModRemote] CreateEvent should be used by the server."); end
 	
@@ -140,6 +162,7 @@ end
 --- Gets an event if it exists, otherwise errors
 -- @param string name - the name of the event.
 function remote:GetEvent(name)
+	modRemEvent:Fire("GetEvent", name);	
 	assert(type(name) == 'string', "[ModRemote] GetEvent - Name must be a string");
 	assert(eventStorage:FindFirstChild(name),"[ModRemote] GetEvent - Event " .. name .. " not found, create it using CreateEvent.");
 	
@@ -156,6 +179,8 @@ do --[[REMOTE EVENT OBJECT METHODS]]
 	local remEnv = remote.event;
 	
 	function remEnv:SendToPlayers(playerList, ...) 
+		modRemEvent:Fire("SendToPlayers", playerList, ...);	
+		
 		assert(server, "[ModRemote] SendToPlayers should be called from the Server side.");
 		for _, player in pairs(playerList) do
 			self.Instance:FireClient(player, ...);
@@ -163,21 +188,29 @@ do --[[REMOTE EVENT OBJECT METHODS]]
 	end
 	
 	function remEnv:SendToPlayer(player, ...)  
+		modRemEvent:Fire("SendToPlayer", player, ...);
+		
 		assert(server, "[ModRemote] SendToPlayers should be called from the Server side.");
 		self.Instance:FireClient(player, ...);
 	end
 	
 	function remEnv:SendToServer(...) 
+		modRemEvent:Fire("SendToServer", ...);		
+		
 		assert(client, "SendToServer should be called from the Client side.");
 		self.Instance:FireServer(...);
 	end
 	
 	function remEnv:SendToAllPlayers(...) 
+		modRemEvent:Fire("SendToAllPlayers", ...);		
+		
 		assert(server, "[ModRemote] SendToPlayers should be called from the Server side.");
 		self.Instance:FireAllClients(...);	
 	end
 	
 	function remEnv:Listen(func)
+		modRemEvent:Fire("Listen", self.Instance:GetFullName(), func);			
+		
 		if (server) then
 			self.Instance.OnServerEvent:connect(func);
 		else
@@ -205,17 +238,22 @@ end
 --====
 
 function remote.internal:GetFunction(name)
+	modRemEvent:Fire("<internal> GetFunction", name);	
+	
 	return (functionStorage:FindFirstChild(name));
 end
 
 
 function remote:GetFunctionFromInstance(instance)
+	modRemEvent:Fire("GetFunctionFromInstance", instance:GetFullName());		
+	
 	local _func = remote.internal:CreateFunctionMetatable(instance);
 	return _func;
 end
 
 
 function remote.internal:CreateFunction(name, instance)
+	modRemEvent:Fire("<internal> CreateFunction", name, instance);
 	
 	local instance = instance or functionStorage:FindFirstChild(name) or Instance.new("RemoteFunction", functionStorage);
 	instance.Name = name;
@@ -230,6 +268,8 @@ end
 --- Gets a function if it exists, otherwise errors
 -- @param string name - the name of the function.
 function remote:GetFunction(name)
+	modRemEvent:Fire("GetFunction", name);	
+	
 	assert(type(name) == 'string', "[ModRemote] GetFunction - Name must be a string");
 	assert(functionStorage:FindFirstChild(name),"[ModRemote] GetFunction - Function " .. name .. " not found, create it using CreateFunction.");
 	
@@ -245,6 +285,8 @@ end
 --- Creates a function
 -- @param string name - the name of the function.
 function remote:CreateFunction(name)
+	modRemEvent:Fire("CreateFunction", name);	
+	
 	if (not server) then
 		warn("[ModRemote] CreateFunction should be used by the server."); end
 	
@@ -259,6 +301,7 @@ do -- [[REMOTE FUNCTION OBJECT METHODS ]]
 	local remFunc = remote.func;
 
 	function remFunc:CallPlayer(player, ...) 
+		modRemEvent:Fire("CallPlayer", player, ...);
 		assert(server, "[ModRemote] CallPlayer should be called from the server side."); 	
 		
 		local args = {...};
@@ -296,7 +339,9 @@ do -- [[REMOTE FUNCTION OBJECT METHODS ]]
 		self.Instance:Destroy();
 	end
 	
-	function remFunc:SetClientCache(seconds)
+	function remFunc:SetClientCache(seconds, useAction)
+		modRemEvent:Fire("SetClientCache", seconds);
+		
 		seconds = seconds or 10;
 		assert(server, "SetClientCache must be called on the server.");
 		local instance = self:GetInstance();
@@ -311,17 +356,48 @@ do -- [[REMOTE FUNCTION OBJECT METHODS ]]
 			cache.Name = "ClientCache";
 			cache.Value = seconds;
 		end
-	end	
+		
+		if (useAction) then
+			local cache = instance:FindFirstChild("UseActionCaching") or Instance.new("BoolValue", instance);
+			cache.Name = "UseActionCaching";
+			cache.Value = true;
+		else
+			local cache = instance:FindFirstChild("UseActionCaching");
+			if (cache) then
+				cache:Destroy();
+			end			
+		end
+		
+	end
 	
-	function remFunc:CallServer(...) 
+	function remFunc:ResetClientCache()
+		modRemEvent:Fire("ResetClientCache");		
+		
+		assert(client, "ResetClientCache must be used on the client.");
+		
 		local clientCache = self.Instance:FindFirstChild("ClientCache");
 		if (clientCache) then
-			local cached = remote.FuncCache[self.Instance:GetFullName()];
+			remote.FuncCache[self.Instance:GetFullName()] = {Expires = 0, Value = nil};
+		else
+			warn(self.Instance:GetFullName() .. " does not have a cache.");
+		end		
+	end
+	
+	function remFunc:CallServer(...)
+		local args = {...};
+		 
+		local clientCache = self.Instance:FindFirstChild("ClientCache");
+		if (clientCache) then
+			local cacheName = self.Instance:FindFirstChild("UseActionCaching") and self.Instance:GetFullName() .. "-" .. tostring(args[1]) or self.Instance:GetFullName();
+			
+ 			local cached = remote.FuncCache[cacheName];
 			if (cached and os.time() < cached.Expires) then
+				modRemEvent:Fire("CallServer (Cached)", cacheName, unpack(args));
 				return cached.Value;
 			else
-				local newVal = self:CallServerIntl(...);
-				remote.FuncCache[self.Instance:GetFullName()] = {Expires = os.time() + clientCache.Value, Value = newVal};
+				modRemEvent:Fire("CallServer (NotCached)", unpack(args));
+				local newVal = self:CallServerIntl(unpack(args));
+				remote.FuncCache[cacheName] = {Expires = os.time() + clientCache.Value, Value = newVal};
 				return newVal;
 			end
 		else
