@@ -9,7 +9,7 @@ I created this module a while ago to try and make use of RemoteEvents/Functions 
 This module does both Events and Functions.
 
 RemoteEvents
-------------
+============
 
 To create a RemoteEvent, it must be done serverside as such through a server Script:
 ```lua
@@ -22,6 +22,7 @@ local nameOfEvent = modRemote:CreateEvent("NameOfEvent");
 Both the client and server use the :Listen(function) method to handle the events.
 
 Client-side:
+------------
 ```lua
 local nameOfEvent = modRemote:GetEvent("NameOfEvent");
 function onNameOfEvent(...)
@@ -31,6 +32,7 @@ nameOfEvent:Listen(onNameOfEvent);
 ```
 
 Server-side:
+------------
 ```lua
 local nameOfEvent = modRemote:GetEvent("NameOfEvent"); 
 function onNameOfEvent(player, ...)
@@ -57,7 +59,7 @@ nameOfEvent:SendToPlayers({game.Players.Player1, game.Players.Player2}, "Hello, 
 
 
 RemoteFunctions
----------------
+===============
 
 To create a RemoteFunction, it must be done serverside as such through a server Script:
 ```lua
@@ -70,6 +72,7 @@ local nameOfFunction = modRemote:CreateFunction("NameOfFunction");
 Both the client and server use the :Callback(function) method to handle the function, remember that the callback must return a value.
 
 Client-side:
+------------
 ```lua
 local nameOfFunction = modRemote:GetFunction("NameOfFunction");
 function nameOfFunctionCallback(...)
@@ -80,6 +83,7 @@ nameOfFunction:Callback(nameOfFunctionCallback);
 ```
 
 Server-side:
+------------
 ```lua
 local nameOfFunction = modRemote:GetFunction("NameOfFunction"); 
 function nameOfFunctionCallback(player, ...)
@@ -92,6 +96,7 @@ nameOfFunction:Callback(nameOfFunctionCallback);
 Then to fire events, there are the following methods:
 
 Client-Side (CallServer)
+------------
 ```lua
 local nameOfFunction = modRemote:GetFunction("NameOfFunction");
 local returned = nameOfFunction:CallServer("Hello, World!");
@@ -105,6 +110,7 @@ print(returned);
 ```
 
 Server-Side (CallPlayer)
+------------
 ```lua
 local nameOfFunction = modRemote:GetFunction("NameOfFunction");
 local returned = nameOfFunction:CallPlayer(game.Players.Player1, "Hi player!");
@@ -121,12 +127,13 @@ print(returned);
 
 
 RemoteFunction Caching
----------------
+======================
 Firing a RemoteFunction requires not only the client to send the server information, but the server to send the client information back.
 
 If you want to cache this information in case you're not wanting to clog up the network with the same request - you can do the following:
 
 Server-Side
+------------
 ```lua
 local nameOfFunction = modRemote:CreateFunction("NameOfFunction");
 nameOfFunction:SetClientCache(5);
