@@ -306,8 +306,7 @@ do -- [[REMOTE FUNCTION OBJECT METHODS ]]
 		
 		local args = {...};
 		local attempt, err = pcall(function()
-			local response = self.Instance:InvokeClient(player, unpack(args));
-			return response;
+			return self.Instance:InvokeClient(player, unpack(args));
 		end);
 		
 		if (not attempt) then
@@ -318,9 +317,7 @@ do -- [[REMOTE FUNCTION OBJECT METHODS ]]
 	
 	function remFunc:CallServerIntl(...) 
 		assert(client, "[ModRemote] CallServer should be called from the client side."); 	
-		
-		local response = self.Instance:InvokeServer(...);
-		return response;
+		return self.Instance:InvokeServer(...);
 	end
 	
 	function remFunc:Callback(func)
