@@ -390,12 +390,12 @@ do -- [[REMOTE FUNCTION OBJECT METHODS ]]
  			local cached = remote.FuncCache[cacheName];
 			if (cached and os.time() < cached.Expires) then
 				
-				return cached.Value;
+				return unpack(cached.Value);
 			else
 				
-				local newVal = self:CallServerIntl(unpack(args));
+				local newVal = {self:CallServerIntl(unpack(args))};
 				remote.FuncCache[cacheName] = {Expires = os.time() + clientCache.Value, Value = newVal};
-				return newVal;
+				return unpack(newVal);
 			end
 		else
 			return self:CallServerIntl(...);
