@@ -1,5 +1,5 @@
 --[[
-	ModRemote v3.16
+	ModRemote v3.18
 		ModuleScript for handling networking via client/server
 		
 	Documentation for this ModuleScript can be found at
@@ -10,11 +10,11 @@ local replicated = game:GetService("ReplicatedStorage");
 local server = game:FindService("NetworkServer");
 local remoteStorage = replicated;
 
-local functionStorage = remoteStorage:FindFirstChild("Functions") or Instance.new("Model",remoteStorage);
-functionStorage.Name = "Functions";
+local functionStorage = remoteStorage:FindFirstChild("Functions") or Instance.new("Folder",remoteStorage);
+functionStorage.Name = "RemoteFunctions";
 
-local eventStorage = remoteStorage:FindFirstChild("Events") or Instance.new("Model",remoteStorage);
-eventStorage.Name = "Events";
+local eventStorage = remoteStorage:FindFirstChild("Events") or Instance.new("Folder",remoteStorage);
+eventStorage.Name = "RemoteEvents";
 
 local modRemEvent = Instance.new("BindableEvent", script);
 modRemEvent.Name = "ModEvent";
@@ -33,7 +33,7 @@ local remote = {
 	event = {};
 	func = {};
 	internal = {};
-	Version = 3.16;
+	Version = 3.18;
 };
 
 -- This warning will only show on the server
