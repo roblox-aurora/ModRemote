@@ -16,13 +16,6 @@ functionStorage.Name = "RemoteFunctions";
 local eventStorage = remoteStorage:FindFirstChild("Events") or Instance.new("Folder",remoteStorage);
 eventStorage.Name = "RemoteEvents";
 
-local modRemEvent = Instance.new("BindableEvent", script);
-modRemEvent.Name = "ModEvent";
-
-if (script:FindFirstChild("Debug")) then
-	require(script.Debug)(modRemEvent);
-end
-
 local filtering = workspace.FilteringEnabled;
 local localServer = (game.JobId == '');
 
