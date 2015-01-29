@@ -10,10 +10,10 @@ local replicated = game:GetService("ReplicatedStorage");
 local server = game:FindService("NetworkServer");
 local remoteStorage = replicated;
 
-local functionStorage = remoteStorage:FindFirstChild("Functions") or Instance.new("Folder",remoteStorage);
+local functionStorage = remoteStorage:FindFirstChild("RemoteFunctions") or Instance.new("Folder",remoteStorage);
 functionStorage.Name = "RemoteFunctions";
 
-local eventStorage = remoteStorage:FindFirstChild("Events") or Instance.new("Folder",remoteStorage);
+local eventStorage = remoteStorage:FindFirstChild("RemoteEvents") or Instance.new("Folder",remoteStorage);
 eventStorage.Name = "RemoteEvents";
 
 local filtering = workspace.FilteringEnabled;
