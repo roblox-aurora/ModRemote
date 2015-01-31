@@ -46,7 +46,7 @@ ModFunction
 [server] 
   Result metamethod __call(Player player, ...)
   Result CallPlayer(Player player, ...)
-  void SetClientCache(int seconds)
+  void SetClientCache(int seconds, bool cacheFirstArg = false)
 
 [client] 
   [cachable] 
