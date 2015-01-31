@@ -199,9 +199,8 @@ local anotherValue = nameOfFunction:CallServer("GetAnotherValue");
 ```
 However, if you're wanting to have it cache according to the first value - you can do the following:
 ```lua
-local nameOfFunction = modRemote:GetFunction("NameOfFunction", true);
-local someValue = nameOfFunction:CallServer("GetSomeValue", true);
-local anotherValue = nameOfFunction:CallServer("GetAnotherValue", true);
+local nameOfFunction = modRemote:CreateFunction("NameOfFunction");
+nameOfFunction:SetClientCache(5, true);
 ```
 The second argument is a boolean which determines whether or not the function should be cached depending on the first value of the call.
 
