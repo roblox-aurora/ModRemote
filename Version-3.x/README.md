@@ -197,7 +197,13 @@ local nameOfFunction = modRemote:GetFunction("NameOfFunction");
 local someValue = nameOfFunction:CallServer("GetSomeValue");
 local anotherValue = nameOfFunction:CallServer("GetAnotherValue");
 ```
-This means if you're using the same RemoteFunction for multiple "actions", you might want to separate the "actions" into individual RemoteFunctions. Using the same RemoteFunction for multiple "actions" is regarded as bad practice.
+However, if you're wanting to have it cache according to the first value - you can do the following:
+```lua
+local nameOfFunction = modRemote:GetFunction("NameOfFunction", true);
+local someValue = nameOfFunction:CallServer("GetSomeValue", true);
+local anotherValue = nameOfFunction:CallServer("GetAnotherValue", true);
+```
+The second argument is a boolean which determines whether or not the function should be cached depending on the first value of the call.
 
 
 Working with existing RemoteEvents/RemoteFunctions
