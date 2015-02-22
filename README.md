@@ -16,9 +16,3 @@ New Features
 Removed
 * Compatibility with non-Filtering games - new projects should be using FilteringEnabled.
 * Function clutter
-
-Version 2.72
-===========
-Version 2.72 is the old build for ModRemote. The ModuleScript and documentation can be found under
-
-[Version 2.72](Version-2.72/)
