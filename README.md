@@ -95,7 +95,7 @@ end
 nameOfFunction:Callback(nameOfFunctionCallback);
 ```
 
-Then to fire events, there are the following methods:
+Then to invoke functions, there are the following methods:
 
 Client-Side (CallServer)
 ------------
