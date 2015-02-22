@@ -18,6 +18,7 @@ local modRemote = require(replicatedStorage.ModRemote);
 
 local nameOfEvent = modRemote:CreateEvent("NameOfEvent");
 ```
+You can also [Bind existing events manually](#working-with-existing-remoteeventsremotefunctions), and [Bind events in server scripts](#registering-eventsfunctions-parented-to-server-scriptsmodules)
 
 Both the client and server use the :Listen(function) method to handle the events.
 
@@ -70,6 +71,7 @@ local modRemote = require(replicatedStorage.ModRemote);
 
 local nameOfFunction = modRemote:CreateFunction("NameOfFunction");
 ```
+You can also [Bind existing functions manually](#working-with-existing-remoteeventsremotefunctions), and [Bind functions in server scripts](#registering-eventsfunctions-parented-to-server-scriptsmodules)
 
 Both the client and server use the :Callback(function) method to handle the function, remember that the callback must return a value.
 
