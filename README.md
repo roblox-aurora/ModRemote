@@ -1,18 +1,11 @@
 # ROBLOX-ModRemote
 ModuleScript for making it easy to do Client/Server communication using the ROBLOX platform
 
-Version 3.x
-===========
-Version 3.x is the current build for ModRemote. The ModuleScript and documentation can be found under
+You can create RemoteEvents/RemoteFunctions through this ModuleScript, or you can bind onto existing RemoteFunctions/RemoteEvents with ModRemote to use the ModRemote's API on them.
 
-[Version 3.x](Version-3.x/)
+Useful Links
+----------
 
-New Features
-* Wrapping existing RemoteEvent instances
-* Wrapping existing RemoteFunction instances
-* RemoteFunction server result caching (client-side)
-* Registering remotes that are parented to server scripts
+* [How to use ModRemote](Version-3.x/README.md)
 
-Removed
-* Compatibility with non-Filtering games - new projects should be using FilteringEnabled.
-* Function clutter
+* [ModuleScript](Version-3.x/ModRemote.rbxs)
