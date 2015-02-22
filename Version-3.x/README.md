@@ -1,12 +1,7 @@
-ModuleRemote
-===================
+# ROBLOX-ModRemote
+ModuleScript for making it easy to do Client/Server communication using the ROBLOX platform
 
-ModuleScript for allowing easy creation/use of the RemoteFunction/RemoteEvent instances through ROBLOX lua scripting.
-
-
-I created this module a while ago to try and make use of RemoteEvents/Functions on ROBLOX a lot less of a pain to work with.
-
-This module does both Events and Functions.
+You can create RemoteEvents/RemoteFunctions through this ModuleScript, or you can bind onto existing RemoteFunctions/RemoteEvents with ModRemote to use the ModRemote's API on them.
 
 RemoteEvents
 ============
