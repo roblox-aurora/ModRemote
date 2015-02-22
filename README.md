@@ -3,6 +3,9 @@ ModuleScript for making it easy to do Client/Server communication using the ROBL
 
 You can create RemoteEvents/RemoteFunctions through this ModuleScript, or you can bind onto existing RemoteFunctions/RemoteEvents with ModRemote to use the ModRemote's API on them.
 
+
+The ModuleScript is located [here](/ModRemote.rbxs).
+
 RemoteEvents
 ============
 
