@@ -104,7 +104,7 @@ local nameOfFunction = modRemote:GetFunction("NameOfFunction");
 local returned = nameOfFunction:CallServer("Hello, World!");
 print(returned);
 ```
-or 
+or calling it like a function
 ```lua
 local nameOfFunction = modRemote:GetFunction("NameOfFunction");
 local returned = nameOfFunction("Hello, World!");
@@ -118,7 +118,7 @@ local nameOfFunction = modRemote:GetFunction("NameOfFunction");
 local returned = nameOfFunction:CallPlayer(game.Players.Player1, "Hi player!");
 print(returned)
 ```
-or
+or calling it like a function
 ```lua
 local nameOfFunction = modRemote:GetFunction("NameOfFunction");
 local returned = nameOfFunction(game.Players.Player1, "Hi player!");
