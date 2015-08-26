@@ -84,6 +84,14 @@ end
 nameOfFunction:Callback(nameOfFunctionCallback);
 ```
 
+You can also do it like this, which may be more preferrable
+```lua
+local nameOfFunction = modRemote:GetFunction("NameOfFunction");
+function nameOfFunction.OnCallback(...)
+  return "Hello, World!";
+end
+```
+
 Server-side:
 ------------
 ```lua
@@ -93,6 +101,14 @@ function nameOfFunctionCallback(player, ...)
  return "Hello, there " .. player.Name .. "!";
 end
 nameOfFunction:Callback(nameOfFunctionCallback);
+```
+
+You can also do it like this, which may be more preferrable
+```lua
+local nameOfFunction = modRemote:GetFunction("NameOfFunction");
+function nameOfFunction.OnCallback(player, ...)
+  return "Hello, there " .. player.Name .. "!";
+end
 ```
 
 Then to invoke functions, there are the following methods:
