@@ -52,7 +52,11 @@ function remote.internal:CreateEventMetatable(instance)
 				return rawget(self, i);
 			end
 		end);
-		__newindex = nil;
+		__newindex = (function(self, i, v)
+			if (i == 'OnRecieved' and type(v) == 'function') then
+				self:Listen(v);
+			end
+		end);
 	};
 	setmetatable(_event, _mt);
 	
@@ -89,7 +93,11 @@ function remote.internal:CreateFunctionMetatable(instance)
 				return rawget(self, i);
 			end
 		end);
-		__newindex = nil;
+		__newindex = (function(self, i, v)
+			if (i == 'OnCallback' and type(v) == 'function') then
+				self:Callback(v);
+			end
+		end);
 		
 		__call = (function(self,...)
 			if (server) then
@@ -172,8 +180,6 @@ do --[[REMOTE EVENT OBJECT METHODS]]
 	local remEnv = remote.event;
 	
 	function remEnv:SendToPlayers(playerList, ...) 
-			
-		
 		assert(server, "[ModRemote] SendToPlayers should be called from the Server side.");
 		for _, player in pairs(playerList) do
 			self.Instance:FireClient(player, ...);
@@ -397,9 +403,18 @@ do -- [[REMOTE FUNCTION OBJECT METHODS ]]
 end
 
 local remoteMT = {
-	__call = (function(self)
+	__call = (function(self, ...)
 		assert(server, "ModRemote can only be called from server.");
-		remote:RegisterChildren();
+		
+		local args = {...};
+		if (#args > 0) then
+			for _, dir in pairs(args) do
+				remote:RegisterChildren(dir);
+			end
+		else
+			remote:RegisterChildren();
+		end
+		
 		return self;
 	end)
 };
