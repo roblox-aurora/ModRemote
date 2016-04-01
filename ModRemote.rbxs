@@ -367,7 +367,7 @@ function remoteFunction:CallServer(...)
 	local clientCache = instance:FindFirstChild("ClientCache")
 
 	if clientCache then
-		local cacheName = instance:GetFullName() .. (instance:FindFirstChild("UseActionCaching") and tostring({...}[1]) or "")
+		local cacheName = instance:GetFullName() .. (instance:FindFirstChild("UseActionCaching") and tostring(({...})[1]) or "")
 		
 		local cache = FuncCache[cacheName]
 		if cache and time() < cache.Expires then
