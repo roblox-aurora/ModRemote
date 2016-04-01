@@ -15,7 +15,7 @@ local default_Client_Cache = 10
 
 -- Services
 local ReplicatedStorage	= game:GetService("ReplicatedStorage")
-local server		= game:GetService("NetworkServer")
+local server		= game:FindService("NetworkServer")
 local remote		= {remoteEvent = {}; remoteFunction = {}}
 
 -- Localize Tables
