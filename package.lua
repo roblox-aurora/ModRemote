@@ -7,7 +7,7 @@ return {
 		UserId = 4308133
 	},
 	License = "MIT",
-	Main = "ModRemote.rbxs",
+	Main = "ModRemote",
 	Ignore = {
 		"API.md",
 		"LICENSE.md",
