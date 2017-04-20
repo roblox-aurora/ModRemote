@@ -7,15 +7,15 @@ return {
 		UserId = 4308133
 	},
 	License = "MIT",
-	Main = "ModRemote",
+	Main = "ModRemote.rbxs",
 	Ignore = {
-    "API",
-    "License",
-    "README",
+		"API.md",
+		"LICENSE.md",
+		"README.md",
 	},
 	Platform = {
 		Server = true;
-    Client = true
+		Client = true
 	},
 	Dependencies = {
 	}
