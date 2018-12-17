@@ -1,10 +1,19 @@
-# ROBLOX-ModRemote
+<div align="center">
+	<img src="https://assets.vorlias.com/i1/net-lua.png?v=2"/>
+</div>
+<div align="center">
+	<h1>Roblox Networking Library (Lua)</h1>
+ <h3>Also known as "ModRemote"</h3>
+</div>
+
 ModuleScript for making it easy to do Client/Server communication using the ROBLOX platform
 
 You can create RemoteEvents/RemoteFunctions through this ModuleScript, or you can bind onto existing RemoteFunctions/RemoteEvents with ModRemote to use the ModRemote's API on them.
 
 
 The ModuleScript is located [here](/ModRemote.rbxs).
+
+If you're looking for the typescript version (for `roblox-ts`) - it can be found [here](https://github.com/roblox-aurora/rbx-net).
 
 RemoteEvents
 ============
