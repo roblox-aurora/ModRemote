@@ -1,5 +1,5 @@
 <div align="center">
-	<img src="https://assets.vorlias.com/i1/net-lua.png?v=2"/>
+	<img src="https://assets.vorlias.com/i1/net-lua.png?v=3"/>
 </div>
 <div align="center">
 	<h1>Roblox Networking Library (Lua)</h1>
