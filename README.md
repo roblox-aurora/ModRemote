@@ -10,10 +10,7 @@ ModuleScript for making it easy to do Client/Server communication using the ROBL
 
 You can create RemoteEvents/RemoteFunctions through this ModuleScript, or you can bind onto existing RemoteFunctions/RemoteEvents with ModRemote to use the ModRemote's API on them.
 
-
-The ModuleScript is located [here](/ModRemote.rbxs).
-
-If you're looking for the typescript version (for `roblox-ts`) - it can be found [here](https://github.com/roblox-aurora/rbx-net).
+_This module has been superseded by https://github.com/roblox-aurora/rbx-net as of rbx-net v1.0.13_
 
 RemoteEvents
 ============
